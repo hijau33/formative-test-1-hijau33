@@ -1,0 +1,56 @@
+---
+title: "formative.rmd"
+author: "R. Glazer"
+date: "10/6/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r upload}
+setwd("~/Desktop")
+D1 <- read.csv("HMXPC13_DI_v2_5-14-14.csv")
+View(D1)
+
+```
+
+###5. What does the DI suffix that is appeneded to two of the variable names mean?
+
+Not sure.  There are numerous places where there is a DI suffix - for user ID, for final_cc_cname which corresponds to the location, for start and end dates and LoE, but not sure the correlation.
+
+###6. How many people enrolled in HarvardX/CS50x recieved certification in 2012?
+
+1287
+```{r Harvard}
+library(dplyr)
+D1$CS50x <- with(D1, ifelse(D1$course_id == "HarvardX/CS50x/2012", 1, 0))
+CS50 <- filter(D1, D1$CS50x != 0)
+table(CS50$certified)
+```
+
+###7. How many people registered for HarvardX/CS50x from Columbia on October 15, 2012?
+
+10
+```{r Colombia}
+CS50$Colombia <- with(CS50, ifelse(CS50$final_cc_cname_DI == "Colombia", 1, 0))
+CS50_Colombia <- filter(CS50, CS50$Colombia != 0)
+table(CS50_Colombia$start_time_DI)
+```
+
+###8. Create a new data frame (D2`) that includes student ID and registration date for all students from a country of your choice
+```{r Canada}
+D2 <- filter(D1, D1$final_cc_cname_DI == "Canada")
+keeps <- c("userid_DI", "start_time_DI")
+D2 <- D2[keeps]
+```
+
+###9. Create a new data frame (`D3`) in which the column names are the registration dates, with one column containing the student ids and all other cells indicating a `1` if the student registered on that date or an `NA` if they did not 
+```{r}
+#D3 <- 
+```
+I'm stumped
+
+...and that concludes my 90 minutes (approximately)
